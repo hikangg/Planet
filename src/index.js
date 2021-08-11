@@ -4,10 +4,13 @@ import './assets/main.css';
 import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { SnackbarProvider } from 'material-ui-snackbar-provider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SnackbarProvider>
+      <App />
+    </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
