@@ -11,6 +11,7 @@ import Planet from './Planet';
 function App() {
     const [planetString, setPlanetString] = useState("");
     const [planets, setPlanets] = useState([]);
+    const [html, setHtml] = useState('');
     const availablePlanets = ['earth', 'jupiter', 'mars', 'mercury', 'saturn', 'venus'];
     const snackbar = useSnackbar();
 
@@ -49,7 +50,17 @@ function App() {
     }
 
     function onDownload() {
-        
+        const element = document.createElement("a");
+        const file = new Blob([html], {type: 'text/plain'});
+        element.href = URL.createObjectURL(file);
+        element.download = "export-"+ (new Date()) +".html";
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+    }
+
+    function onReset() {
+        setPlanetString('');
+        setPlanets([]);
     }
 
     function generateHtml() {
@@ -58,7 +69,7 @@ function App() {
             result += generateHtmlForSingleComponent(planets[i].name) + '\n';
         }
 
-        console.log(result);
+        setHtml(result);
     }
 
     function generateHtmlForSingleComponent(planetName) {
@@ -70,38 +81,49 @@ function App() {
             '</div>';
     }
 
+    function handleKeyDown(event) {
+        if(event.key === 'Enter') {
+            onGenerate();
+        }
+    }
+
     return (
-        <div className="max-w-sm rounded">
-            <div className="w-full py-2 px-2">
-                <input className="w-full border h-10 border-gray-200" onChange={(e) => setPlanetString(e.target.value)} />
+        <div className="w-full flex py-2 px-2 justify-center">
+            <div className="max-w-md w-1/2">
+                <div className="w-full py-2 px-2">
+                    <input className="w-full border h-10 border-gray-200 py-2 px-2" onChange={(e) => setPlanetString(e.target.value)} onKeyDown={handleKeyDown} value={planetString}/>
+                </div>
+                <div className="w-full flex py-2 px-2">
+                    <div className="w-1/3 text-center">
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onGenerate}>Generate</button>
+                    </div>
+                    <div className="w-1/3 text-center">
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onDownload}>Download</button>
+                    </div>
+                    <div className="w-1/3 text-center">
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onReset}>Reset</button>
+                    </div>
+                </div>
+                <GridContextProvider onChange={onChange}>
+                    <div className="container">
+                        <GridDropZone
+                            className="dropzone left"
+                            id="left"
+                            boxesPerRow={1}
+                            rowHeight={150}
+                            style={{ height: 150 * planets.length }}
+                        >
+                            {
+                                planets.map((planet) => (
+                                    <GridItem key={planet.id}>
+                                        <Planet planetName={planet.name} />
+                                    </GridItem>
+                                ))
+                            }
+                        </GridDropZone>
+                    </div>
+                </GridContextProvider>
             </div>
-            <div className="w-full flex py-2 px-2">
-                <div className="w-1/2 text-center">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onGenerate}>Generate</button>
-                </div>
-                <div className="w-1/2 text-center">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onDownload}>Download</button>
-                </div>
-            </div>
-            <GridContextProvider onChange={onChange}>
-                <div className="container">
-                    <GridDropZone
-                        className="dropzone left"
-                        id="left"
-                        boxesPerRow={1}
-                        rowHeight={150}
-                        style={{ height: 150 * planets.length }}
-                    >
-                        {
-                            planets.map((planet) => (
-                                <GridItem key={planet.id}>
-                                    <Planet planetName={planet.name} />
-                                </GridItem>
-                            ))
-                        }
-                    </GridDropZone>
-                </div>
-            </GridContextProvider>
         </div>
     );
 }
