@@ -1,75 +1,65 @@
-import React from 'react';
-import { 
-  GridContextProvider,
-  GridDropZone,
-  GridItem
- } from "react-grid-dnd";
-function App() {
-  function onChange(sourceId, sourceIndex, targetIndex, targetId) {
-  }
+import React, { useState } from 'react';
+import {
+    GridContextProvider,
+    GridDropZone,
+    GridItem,
+    swap,
+    move
+} from "react-grid-dnd";
+import Planet from './Planet';
 
-  return (
-    <GridContextProvider onChange={onChange}>
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
-      <input class="w-full border h-10 border-gray-200"></input>
-        <GridDropZone
-            className="dropzone left"
-            id="left"
-            boxesPerRow={1}
-            rowHeight={150}
-          >
-          <GridItem key={0} style={{position: 'fixed'}}>
-            <div class="grid grid-cols-2 h-32 border border-gray-200 my-4">
-                <div class="relative">
-                    <img class="absolute top-0 left-0 w-full h-32 object-cover" src={require('./assets/img/earth.jpeg').default} alt=""/>
+function App() {
+    const [planetString, setPlanetString] = useState("");
+    const [planets, setPlanets] = useState([]);
+
+    function onChange(sourceId, sourceIndex, targetIndex, targetId) {
+        console.log(sourceId);
+        console.log(targetId);
+        console.log(sourceIndex);
+        console.log(targetIndex);
+        const result = swap(planets, sourceIndex, targetIndex);
+        return setPlanets(result);
+    }
+
+    function onGenerate() {
+        const planetNames = planetString.toLowerCase().replace(/\s/g, '').split(',');
+        const planetArray = [];
+        for (var i = 0; i < planetNames.length; i++) {
+            planetArray.push(
+                {
+                    id: i + 1,
+                    name: planetNames[i]
+                }
+            );
+        }
+
+        setPlanets(planetArray);
+    }
+
+    return (
+        <div className="max-w-sm rounded">
+            <input className="w-full border h-10 border-gray-200" onChange={(e) => setPlanetString(e.target.value)} />
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={onGenerate}>Generate</button>
+            <GridContextProvider onChange={onChange} className="overflow-auto">
+                <div className="container">
+                    <GridDropZone
+                        className="dropzone left"
+                        id="left"
+                        boxesPerRow={1}
+                        rowHeight={150}
+                    >
+                        {
+                            planets.map((planet) => (
+                                <GridItem key={planet.name}>
+                                    <Planet planetName={planet.name} className="grid-item" />
+                                </GridItem>
+                            ))
+                        }
+                    </GridDropZone>
                 </div>
-                <p class="text-3xl font-bold text-left p-10">Earth</p>
-            </div>
-          </GridItem>
-          <GridItem key={1} style={{position: 'fixed'}}>
-          <div class="grid grid-cols-2 h-32 border border-gray-200 my-4">
-              <div class="relative">
-                  <img class="absolute top-0 left-0 w-full h-32 object-cover" src={require('./assets/img/jupiter.jpeg').default} alt=""/>
-              </div>
-              <p class="text-3xl font-bold text-left p-10">Jupiter</p>
-          </div>
-          </GridItem>
-          <GridItem key={2} style={{position: 'fixed'}}>
-          <div class="grid grid-cols-2 h-32 border border-gray-200 my-4">
-              <div class="relative">
-                  <img class="absolute top-0 left-0 w-full h-32 object-cover" src={require('./assets/img/mars.jpeg').default} alt=""/>
-              </div>
-              <p class="text-3xl font-bold text-left p-10">Mars</p>
-          </div>
-          </GridItem>
-          <GridItem key={3} style={{position: 'fixed'}}>
-          <div class="grid grid-cols-2 h-32 border border-gray-200 my-4">
-              <div class="relative">
-                  <img class="absolute top-0 left-0 w-full h-32 object-cover" src={require('./assets/img/mercury.jpeg').default} alt=""/>
-              </div>
-              <p class="text-3xl font-bold text-left p-10">Mercury</p>
-          </div>
-          </GridItem>
-          <GridItem key={4} style={{position: 'fixed'}}>
-          <div class="grid grid-cols-2 h-32 border border-gray-200 my-4">
-              <div class="relative">
-                  <img class="absolute top-0 left-0 w-full h-32 object-cover" src={require('./assets/img/saturn.jpeg').default} alt=""/>
-              </div>
-              <p class="text-3xl font-bold text-left p-10">Saturn</p>
-          </div>
-          </GridItem>
-          <GridItem key={5} style={{position: 'fixed'}}>
-          <div class="grid grid-cols-2 h-32 border border-gray-200 my-4">
-              <div class="relative">
-                  <img class="absolute top-0 left-0 w-full h-32 object-cover" src={require('./assets/img/venus.jpeg').default} alt=""/>
-              </div>
-              <p class="text-3xl font-bold text-left p-10">Venus</p>
-          </div>
-          </GridItem>
-        </GridDropZone>
-    </div>
-    </GridContextProvider>
-  );
+            </GridContextProvider>
+        </div>
+    );
 }
 
 export default App;
