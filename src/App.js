@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStateWithCallbackLazy } from 'use-state-with-callback';
+import { useSnackbar } from 'material-ui-snackbar-provider';
 import {
     GridContextProvider,
     GridDropZone,
@@ -10,14 +10,17 @@ import Planet from './Planet';
 
 function App() {
     const [planetString, setPlanetString] = useState("");
-    const [planets, setPlanets] = useStateWithCallbackLazy([]);
+    const [planets, setPlanets] = useState([]);
     const availablePlanets = ['earth', 'jupiter', 'mars', 'mercury', 'saturn', 'venus'];
+    const snackbar = useSnackbar();
+
+    React.useEffect(() => {
+        generateHtml();
+      }, [planets]);
 
     function onChange(sourceId, sourceIndex, targetIndex, targetId) {
         const result = swap(planets, sourceIndex, targetIndex);
-        setPlanets(result, () => {
-            generateHtml();
-        });
+        setPlanets(result);
     }
 
     function onGenerate() {
@@ -33,16 +36,20 @@ function App() {
                 );
             }
             else {
-                if (planetNames[i] === '') { //Check whether exist comma at the end of empty string.
-
-                }
-                else {
-
+                if (planetNames[i] !== '') { //Check whether exist comma at the end of empty string.
+                    snackbar.showMessage('We noticed you input the invalied planet name. ' +
+                        'It was skipped. ' +
+                        'Position: ' + (i + 1) + ', ' + 
+                        'Name: ' + planetNames[i]);
                 }
             }
         }
 
         setPlanets(planetArray);
+    }
+
+    function onDownload() {
+        
     }
 
     function generateHtml() {
@@ -65,8 +72,17 @@ function App() {
 
     return (
         <div className="max-w-sm rounded">
-            <input className="w-full border h-10 border-gray-200" onChange={(e) => setPlanetString(e.target.value)} />
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={onGenerate}>Generate</button>
+            <div className="w-full py-2 px-2">
+                <input className="w-full border h-10 border-gray-200" onChange={(e) => setPlanetString(e.target.value)} />
+            </div>
+            <div className="w-full flex py-2 px-2">
+                <div className="w-1/2 text-center">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onGenerate}>Generate</button>
+                </div>
+                <div className="w-1/2 text-center">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onDownload}>Download</button>
+                </div>
+            </div>
             <GridContextProvider onChange={onChange}>
                 <div className="container">
                     <GridDropZone
