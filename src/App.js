@@ -50,12 +50,18 @@ function App() {
     }
 
     function onDownload() {
-        const element = document.createElement("a");
-        const file = new Blob([html], {type: 'text/plain'});
-        element.href = URL.createObjectURL(file);
-        element.download = "export-"+ (new Date()) +".html";
-        document.body.appendChild(element); // Required for this to work in FireFox
-        element.click();
+        if(planets.length) {
+            const element = document.createElement("a");
+            const file = new Blob([html], {type: 'text/plain'});
+            element.href = URL.createObjectURL(file);
+            element.download = "export-"+ (new Date()) +".html";
+            document.body.appendChild(element); // Required for this to work in FireFox
+            element.click();
+        }
+        else {
+            snackbar.showMessage('No planet exist.');
+        }
+        
     }
 
     function onReset() {
@@ -75,7 +81,7 @@ function App() {
     function generateHtmlForSingleComponent(planetName) {
         return '<div className="grid grid-cols-2 h-32 border border-gray-200 my-4">' + '\n' +
             '\t' + '<div className="relative full-width">' + '\n' +
-            '\t\t' + '<img className="absolute top-0 left-0 w-full h-32 object-cover grid-item-content" src="/assets/img/' + planetName + '.jpeg" alt="" />' + '\n' +
+            '\t\t' + '<img className="absolute top-0 left-0 w-full h-32 object-cover grid-item-content" src="./assets/img/' + planetName + '.jpeg" alt="" />' + '\n' +
             '\t' + '</div>' +
             '\t' + '<p className="text-3xl font-bold text-left p-10 full-width">' + planetName.charAt(0).toUpperCase() + planetName.slice(1) + '</p>' + '\n' +
             '</div>';
