@@ -19,7 +19,7 @@ function App() {
         generateHtml();
       }, [planets]);
 
-    function onChange(sourceId, sourceIndex, targetIndex, targetId) {
+    function onChangeOrder(sourceId, sourceIndex, targetIndex, targetId) {
         const result = swap(planets, sourceIndex, targetIndex);
         setPlanets(result);
     }
@@ -123,7 +123,7 @@ function App() {
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold flex-6 py-2 px-4 rounded" onClick={onReset}>Reset</button>
                     </div>
                 </div>
-                <GridContextProvider onChange={onChange}>
+                <GridContextProvider onChange={onChangeOrder}>
                     <div className="container">
                         <GridDropZone
                             className="dropzone left"
