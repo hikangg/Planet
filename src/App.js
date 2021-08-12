@@ -51,8 +51,21 @@ function App() {
 
     function onDownload() {
         if(planets.length) {
+            var htmlContent = '<html>' + 
+            '<head>' + 
+                '<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">' +
+            '</head>' + 
+            '<body>' + 
+                '<div class="w-full flex py-2 px-2 justify-center">' + 
+                    '<div class="max-w-md w-1/2">' +
+                    html +
+                    '</div>' + 
+                '</div>' +
+            '</body>' + 
+            '</html>';
+
             const element = document.createElement("a");
-            const file = new Blob([html], {type: 'text/plain'});
+            const file = new Blob([htmlContent], {type: 'text/plain'});
             element.href = URL.createObjectURL(file);
             element.download = "export-"+ (new Date()) +".html";
             document.body.appendChild(element); // Required for this to work in FireFox
@@ -79,11 +92,11 @@ function App() {
     }
 
     function generateHtmlForSingleComponent(planetName) {
-        return '<div className="grid grid-cols-2 h-32 border border-gray-200 my-4">' + '\n' +
-            '\t' + '<div className="relative full-width">' + '\n' +
-            '\t\t' + '<img className="absolute top-0 left-0 w-full h-32 object-cover grid-item-content" src="./assets/img/' + planetName + '.jpeg" alt="" />' + '\n' +
+        return '<div class="grid grid-cols-2 h-32 border border-gray-200 my-4">' + '\n' +
+            '\t' + '<div class="relative full-width">' + '\n' +
+            '\t\t' + '<img class="absolute top-0 left-0 w-full h-32 object-cover grid-item-content" src="https://transfers.new.italeastcorp.com/static/media/' + planetName + '.jpeg" alt="" />' + '\n' +
             '\t' + '</div>' +
-            '\t' + '<p className="text-3xl font-bold text-left p-10 full-width">' + planetName.charAt(0).toUpperCase() + planetName.slice(1) + '</p>' + '\n' +
+            '\t' + '<p class="text-3xl font-bold text-left p-10 full-width">' + planetName.charAt(0).toUpperCase() + planetName.slice(1) + '</p>' + '\n' +
             '</div>';
     }
 
