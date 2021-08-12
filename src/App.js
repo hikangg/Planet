@@ -17,7 +17,7 @@ function App() {
 
     React.useEffect(() => {
         generateHtml();
-      }, [planets]);
+    }, [planets]);
 
     function onChangeOrder(sourceId, sourceIndex, targetIndex, targetId) {
         const result = swap(planets, sourceIndex, targetIndex);
@@ -40,7 +40,7 @@ function App() {
                 if (planetNames[i] !== '') { //Check whether exist comma at the end of empty string.
                     snackbar.showMessage('We noticed you input the invalied planet name. ' +
                         'It was skipped. ' +
-                        'Position: ' + (i + 1) + ', ' + 
+                        'Position: ' + (i + 1) + ', ' +
                         'Name: ' + planetNames[i]);
                 }
             }
@@ -50,31 +50,31 @@ function App() {
     }
 
     function onDownload() {
-        if(planets.length) {
-            var htmlContent = '<html>' + 
-            '<head>' + 
+        if (planets.length) {
+            var htmlContent = '<html>' +
+                '<head>' +
                 '<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">' +
-            '</head>' + 
-            '<body>' + 
-                '<div class="w-full flex py-2 px-2 justify-center">' + 
-                    '<div class="max-w-md w-1/2">' +
-                    html +
-                    '</div>' + 
+                '</head>' +
+                '<body>' +
+                '<div class="w-full flex py-2 px-2 justify-center">' +
+                '<div class="max-w-md w-1/2">' +
+                html +
                 '</div>' +
-            '</body>' + 
-            '</html>';
+                '</div>' +
+                '</body>' +
+                '</html>';
 
             const element = document.createElement("a");
-            const file = new Blob([htmlContent], {type: 'text/plain'});
+            const file = new Blob([htmlContent], { type: 'text/plain' });
             element.href = URL.createObjectURL(file);
-            element.download = "export-"+ (new Date()) +".html";
+            element.download = "export-" + (new Date()) + ".html";
             document.body.appendChild(element); // Required for this to work in FireFox
             element.click();
         }
         else {
             snackbar.showMessage('No planet exist.');
         }
-        
+
     }
 
     function onReset() {
@@ -101,7 +101,7 @@ function App() {
     }
 
     function handleKeyDown(event) {
-        if(event.key === 'Enter') {
+        if (event.key === 'Enter') {
             onGenerate();
         }
     }
@@ -110,7 +110,7 @@ function App() {
         <div className="w-full flex py-2 px-2 justify-center">
             <div className="max-w-md w-1/2">
                 <div className="w-full py-2 px-2">
-                    <input className="w-full border h-10 border-gray-200 py-2 px-2" onChange={(e) => setPlanetString(e.target.value)} onKeyDown={handleKeyDown} value={planetString}/>
+                    <input className="w-full border h-10 border-gray-200 py-2 px-2" onChange={(e) => setPlanetString(e.target.value)} onKeyDown={handleKeyDown} value={planetString} />
                 </div>
                 <div className="w-full flex py-2 px-2">
                     <div className="w-1/3 text-center">
