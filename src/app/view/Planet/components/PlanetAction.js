@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
 import { useSnackbar } from 'material-ui-snackbar-provider';
 
 function PlanetAction(props) {
-    const availablePlanets = ['earth', 'jupiter', 'mars', 'mercury', 'saturn', 'venus'];
+    const [availablePlanets, setAvailablePlanets] = useState([]);
     const snackbar = useSnackbar();
+
+    useEffect(() => {
+        axios.get("/api/planet/all").then(response => {
+            const planetArray = response.data.map((item) => {
+                return item.name;
+            });
+            setAvailablePlanets(planetArray);
+        });
+    }, []);
 
     function onGenerate() {
         const planetNames = props.state.planetString.toLowerCase().replace(/\s/g, '').split(',');
