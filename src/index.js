@@ -5,12 +5,16 @@ import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { SnackbarProvider } from 'material-ui-snackbar-provider';
+import { Provider } from "react-redux";
+import { Store } from "./app/redux/Store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <SnackbarProvider>
-      <App />
-    </SnackbarProvider>
+    <Provider store={Store}>
+      <SnackbarProvider>
+        <App />
+      </SnackbarProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
