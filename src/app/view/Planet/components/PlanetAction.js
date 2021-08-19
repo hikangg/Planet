@@ -29,7 +29,7 @@ function PlanetAction(props) {
             }
             else {
                 if (planetNames[i] !== '') { //Check whether exist comma at the end of empty string.
-                    snackbar.showMessage('We noticed you input the invalied planet name. ' +
+                    snackbar.showMessage('We noticed you input the invalid planet name. ' +
                         'It was skipped. ' +
                         'Position: ' + (i + 1) + ', ' +
                         'Name: ' + planetNames[i]);
