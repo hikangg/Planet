@@ -9,6 +9,7 @@ import Planet from './Planet';
 
 function PlanetList(props) {
 
+    // Change planet list order after order action happened.
     function onChangeOrder(sourceId, sourceIndex, targetIndex, targetId) {
         const result = swap(props.state.planets, sourceIndex, targetIndex);
         props.setState({

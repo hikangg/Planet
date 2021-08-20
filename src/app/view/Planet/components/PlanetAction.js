@@ -7,6 +7,7 @@ function PlanetAction(props) {
     const snackbar = useSnackbar();
 
     useEffect(() => {
+        // Fetch available planets.
         axios.get("/api/planet/all").then(response => {
             const planetArray = response.data.map((item) => {
                 return item.name;
@@ -15,6 +16,7 @@ function PlanetAction(props) {
         });
     }, []);
 
+    // Generate Planet list from input box with planet name validation.
     function onGenerate() {
         const planetNames = props.state.planetString.toLowerCase().replace(/\s/g, '').split(',');
         const planetArray = [];
@@ -43,6 +45,7 @@ function PlanetAction(props) {
         });
     }
 
+    // Download html content for planet list.
     function onDownload() {
         if (props.state.planets.length) {
             var htmlContent = '<html>' +
@@ -71,6 +74,7 @@ function PlanetAction(props) {
 
     }
 
+    // Reset planet list.
     function onReset() {
         props.setState({
             ...props.state,
@@ -79,6 +83,7 @@ function PlanetAction(props) {
         });
     }
 
+    // Generate action happened after `enter` key down.
     function handleKeyDown(event) {
         if (event.key === 'Enter') {
             onGenerate();

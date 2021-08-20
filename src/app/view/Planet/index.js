@@ -9,10 +9,12 @@ function PlanetHome() {
         html: ""
     });
 
+    // Regenerate html content after `planets` changed.
     useEffect(() => {
         generateHtml();
     }, [state.planets]);
 
+    // Generate html content with planet list.
     function generateHtml() {
         var result = '';
         for (var i = 0; i < state.planets.length; i++) {
