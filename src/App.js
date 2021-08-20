@@ -5,7 +5,7 @@ import Planet from "./app/view/Planet";
 import "./mock-db";
 
 function App() {
-    
+
     return (
         <React.Fragment>
             <Router>

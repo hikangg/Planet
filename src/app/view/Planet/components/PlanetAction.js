@@ -93,7 +93,7 @@ function PlanetAction(props) {
     return (
         <React.Fragment>
             <div className="w-full py-2 px-2">
-                <input className="w-full border h-10 border-gray-200 py-2 px-2" onChange={(e) => props.setState({...props.state, planetString: e.target.value})} onKeyDown={handleKeyDown} value={props.state.planetString} />
+                <input className="w-full border h-10 border-gray-200 py-2 px-2" onChange={(e) => props.setState({ ...props.state, planetString: e.target.value })} onKeyDown={handleKeyDown} value={props.state.planetString} />
             </div>
             <div className="w-full flex py-2 px-2">
                 <div className="w-1/3 text-center">

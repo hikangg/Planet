@@ -39,8 +39,8 @@ function PlanetHome() {
     return (
         <div className="w-full flex py-2 px-2 justify-center">
             <div className="max-w-md w-1/2">
-                <PlanetAction state={state} setState={setState}/>
-                <PlanetList state={state} setState={setState}/>
+                <PlanetAction state={state} setState={setState} />
+                <PlanetList state={state} setState={setState} />
             </div>
         </div>
     );
